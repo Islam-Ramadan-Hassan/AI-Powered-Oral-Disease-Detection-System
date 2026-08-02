@@ -7,7 +7,6 @@ Pillow
 plotly
 scikit-learn
 streamlit>=1.50
-tensorflow>=2.18
 numpy>=1.26
 pandas>=2.0
 pillow>=10.0
