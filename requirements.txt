@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 streamlit>=1.38.0
 tensorflow==2.19.1
 numpy
@@ -7,3 +8,12 @@ seaborn
 Pillow
 plotly
 scikit-learn
+=======
+streamlit>=1.50
+tensorflow>=2.18
+numpy>=1.26
+pandas>=2.0
+pillow>=10.0
+matplotlib>=3.8
+seaborn>=0.13
+>>>>>>> Stashed changes

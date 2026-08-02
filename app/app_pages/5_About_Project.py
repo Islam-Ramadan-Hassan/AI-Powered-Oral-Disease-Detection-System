@@ -5,6 +5,7 @@ import streamlit as st
 from app.components.cards import render_info_card
 from app.components.footer import render_footer
 from app.components.header import render_page_header
+from app.components.section import render_section_header
 
 render_page_header(
     title="About the project",
@@ -12,7 +13,11 @@ render_page_header(
     icon="info",
 )
 
-st.subheader(":material/timeline: Pipeline", anchor=False)
+render_section_header(
+    "Pipeline",
+    icon="timeline",
+    description="From raw oral images to a deployed Streamlit dashboard.",
+)
 with st.container(border=True):
     st.mermaid_chart("""
 flowchart LR
@@ -25,6 +30,11 @@ flowchart LR
 
 st.space("small")
 
+render_section_header(
+    "Methodology",
+    icon="psychology",
+    description="The design principles behind the system.",
+)
 col1, col2 = st.columns(2)
 with col1:
     render_info_card("Objective", "Design and deploy an explainable deep-learning system that classifies six oral disease categories from images while remaining suitable for educational and presentation purposes.", icon="flag")
@@ -35,6 +45,11 @@ with col2:
 
 st.space("small")
 
+render_section_header(
+    "Future work",
+    icon="rocket_launch",
+    description="Planned extensions beyond the current milestone.",
+)
 render_info_card("Future work", "Future extensions include Grad-CAM explainability, model retraining on larger datasets, and deployment in a cloud environment.", icon="rocket_launch")
 
 render_footer()

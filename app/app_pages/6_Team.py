@@ -5,12 +5,19 @@ import streamlit as st
 from app.components.cards import render_team_card
 from app.components.footer import render_footer
 from app.components.header import render_page_header
+from app.components.section import render_section_header
 
 render_page_header(
     title="Team",
     subtitle="Contributors behind the oral disease detection system.",
     icon="groups",
     badges=[("5 contributors", "blue")],
+)
+
+render_section_header(
+    "Contributors",
+    icon="groups",
+    description="Roles and focus areas for each team member.",
 )
 
 team = [

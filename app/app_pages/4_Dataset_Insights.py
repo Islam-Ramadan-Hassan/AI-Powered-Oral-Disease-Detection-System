@@ -3,8 +3,10 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
+from app.components.charts import render_bar_chart
 from app.components.footer import render_footer
 from app.components.header import render_page_header
+from app.components.section import render_section_header
 from app.utils.helpers import load_dataset_summary
 from app.utils.visualization import render_resolution_chart
 
@@ -17,6 +19,11 @@ render_page_header(
     badges=[("Balanced preprocessing", "green"), ("No corrupted images", "green")],
 )
 
+render_section_header(
+    "Dataset size",
+    icon="data_usage",
+    description="Curated train / validation / test splits.",
+)
 with st.container(horizontal=True):
     st.metric("Train images", dataset["train_images"], border=True)
     st.metric("Validation images", dataset["val_images"], border=True)
@@ -25,29 +32,45 @@ with st.container(horizontal=True):
 
 st.space("small")
 
-st.subheader(":material/bar_chart: Class distribution", anchor=False)
+render_section_header(
+    "Class distribution",
+    icon="bar_chart",
+    description="Image counts per disease class across the full dataset.",
+)
 class_df = pd.DataFrame(dataset["class_counts"]).rename(columns={"class": "class", "total_images": "images"})
-st.bar_chart(class_df, x="class", y="images")
+with st.container(border=True):
+    render_bar_chart(class_df, x="class", y="images", height=340)
 
 st.space("small")
 
+render_section_header(
+    "Balance & resolution",
+    icon="scale",
+    description="How class imbalance is handled and how image resolutions behave.",
+)
 left, right = st.columns(2)
 with left:
-    st.subheader(":material/scale: Class imbalance", anchor=False)
     with st.container(border=True):
+        st.markdown("**Class imbalance**")
         st.markdown(f"**Imbalance ratio:** {dataset['imbalance_ratio']:.2f}")
         st.caption("Ratios near 1.0 indicate balanced class sizes; class weights compensate for the spread.")
+        st.space("small")
         weights_df = pd.DataFrame(
             {"class": list(dataset["class_weights"].keys()), "weight": list(dataset["class_weights"].values())}
         )
-        st.bar_chart(weights_df, x="class", y="weight", horizontal=True)
+        render_bar_chart(weights_df, x="class", y="weight", horizontal=True, format_spec=".3f", height=280)
 with right:
-    st.subheader(":material/aspect_ratio: Resolution analysis", anchor=False)
-    render_resolution_chart()
+    with st.container(border=True):
+        st.markdown("**Resolution analysis**")
+        render_resolution_chart()
 
 st.space("small")
 
-st.subheader(":material/verified: Data quality", anchor=False)
+render_section_header(
+    "Data quality",
+    icon="verified",
+    description="Validation results for the cleaned dataset.",
+)
 col1, col2, col3 = st.columns(3)
 with col1:
     with st.container(border=True):

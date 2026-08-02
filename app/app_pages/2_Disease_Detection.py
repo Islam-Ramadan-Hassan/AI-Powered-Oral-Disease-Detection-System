@@ -4,9 +4,10 @@ import pandas as pd
 import streamlit as st
 from PIL import Image
 
+from app.components.charts import render_bar_chart
 from app.components.footer import render_footer
 from app.components.header import render_page_header
-from app.components.metrics import render_metric_row
+from app.components.section import render_section_header
 from app.utils.image_utils import resize_for_display
 from app.utils.preprocessing import preprocess_and_time, load_image_to_array
 from app.utils.prediction import build_model_from_catalog, predict_with_model
@@ -17,7 +18,11 @@ render_page_header(
     icon="biotech",
 )
 
-st.markdown("**:material/upload: 1 · Upload an image**")
+render_section_header(
+    "Step 1 · Upload an image",
+    icon="upload",
+    description="Accepted formats: PNG, JPG, JPEG, WEBP.",
+)
 with st.container(border=True):
     uploaded_file = st.file_uploader(
         "Oral image",
@@ -33,7 +38,11 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
 
     st.space("small")
-    st.markdown("**:material/query_stats: 2 · Inference results**")
+    render_section_header(
+        "Step 2 · Inference results",
+        icon="query_stats",
+        description="Model, confidence, and timing for the selected artifact.",
+    )
 
     left, right = st.columns([1.1, 1], vertical_alignment="center")
     with left:
@@ -58,22 +67,32 @@ if uploaded_file is not None:
             badge = "red"
             tag = "Uncertain"
 
-        render_metric_row([
-            ("Predicted disease", result["predicted_label"]),
-            ("Confidence", f"{confidence * 100:.2f}%"),
-            ("Inference", f"{result['inference_ms']} ms"),
-        ])
-        st.markdown(f":{badge}-badge[{tag} prediction] :gray-badge[{result['model_name']}]")
+        with st.container(border=True):
+            st.markdown(f":{badge}-badge[{tag} prediction] :gray-badge[{result['model_name']}]")
+            st.space("small")
+            st.metric("Predicted disease", result["predicted_label"], border=True)
+            st.metric("Confidence", f"{confidence * 100:.2f}%", border=True)
+            st.metric("Inference", f"{result['inference_ms']} ms", border=True)
 
     st.space("small")
 
-    st.markdown("**:material/bar_chart: Class probabilities**")
+    render_section_header(
+        "Step 3 · Class probabilities",
+        icon="bar_chart",
+        description="Full probability distribution across all six classes.",
+    )
     probs_df = pd.DataFrame({"class": result["class_names"], "probability": result["probabilities"]})
     probs_df = probs_df.sort_values("probability", ascending=False)
-    st.bar_chart(probs_df, x="class", y="probability", horizontal=True)
+    with st.container(border=True):
+        render_bar_chart(probs_df, x="class", y="probability", horizontal=True, format_spec=".2f", height=320)
 
     st.space("small")
-    st.markdown("**:material/podium: Top-3 predictions**")
+
+    render_section_header(
+        "Step 4 · Top-3 predictions",
+        icon="podium",
+        description="Highest-confidence classes with support bars.",
+    )
     with st.container(border=True):
         for label, score in result["top_predictions"]:
             st.progress(float(score), text=f"{label}: {score:.2%}")

@@ -77,37 +77,90 @@ def inject_styles() -> None:
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 18px;
-        background:
-            radial-gradient(700px 420px at 50% 30%, rgba(66, 165, 245, 0.16) 0%, transparent 65%),
-            var(--ov-bg-deep);
-        animation: ovSplashOut 1.6s ease 1.1s forwards;
+        gap: 14px;
+        background: var(--ov-bg-deep);
+        animation: ovSplashOut 0.7s ease 1.4s forwards;
         pointer-events: none;
     }}
+    .ov-splash::before,
+    .ov-splash::after {{
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        pointer-events: none;
+    }}
+    .ov-splash::before {{
+        width: 380px;
+        height: 380px;
+        top: -120px;
+        left: -100px;
+        background: rgba(66, 165, 245, 0.18);
+        animation: ovDrift1 6s ease-in-out infinite alternate;
+    }}
+    .ov-splash::after {{
+        width: 320px;
+        height: 320px;
+        bottom: -110px;
+        right: -80px;
+        background: rgba(144, 202, 249, 0.12);
+        animation: ovDrift2 7s ease-in-out infinite alternate;
+    }}
+    @keyframes ovDrift1 {{
+        from {{ transform: translate(0, 0) scale(1); }}
+        to {{ transform: translate(60px, 40px) scale(1.15); }}
+    }}
+    @keyframes ovDrift2 {{
+        from {{ transform: translate(0, 0) scale(1); }}
+        to {{ transform: translate(-50px, -30px) scale(1.1); }}
+    }}
+
     .ov-splash-logo {{
-        width: 64px;
-        height: 64px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #42A5F5, #1565C0);
+        position: relative;
+        width: 78px;
+        height: 78px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #42A5F5, #0D47A1);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 40px rgba(66, 165, 245, 0.5);
-        animation: ovPulse 1.2s ease-in-out infinite;
+        box-shadow: 0 0 0 1px rgba(144, 202, 249, 0.25), 0 12px 40px rgba(21, 101, 192, 0.45);
+    }}
+    .ov-splash-logo svg {{
+        position: relative;
+        z-index: 2;
+    }}
+    .ov-splash-logo::before {{
+        content: "";
+        position: absolute;
+        inset: -10px;
+        border-radius: 30px;
+        border: 2px solid rgba(66, 165, 245, 0.35);
+        animation: ovRing 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }}
+    @keyframes ovRing {{
+        0% {{ transform: scale(0.8); opacity: 1; }}
+        100% {{ transform: scale(1.6); opacity: 0; }}
     }}
     .ov-splash-title {{
-        font-size: 1.4rem;
+        font-size: 1.55rem;
         font-weight: 800;
         letter-spacing: -0.02em;
-        color: var(--ov-text);
+        background: linear-gradient(120deg, #90CAF9, #42A5F5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-top: 6px;
     }}
     .ov-splash-sub {{
         color: var(--ov-muted);
         font-size: 0.9rem;
+        letter-spacing: 0.01em;
     }}
     .ov-splash-bar {{
-        width: 180px;
+        width: 200px;
         height: 5px;
+        margin-top: 10px;
         border-radius: 999px;
         background: var(--ov-border);
         overflow: hidden;
@@ -121,12 +174,29 @@ def inject_styles() -> None:
         background: linear-gradient(90deg, transparent, var(--ov-primary), transparent);
         animation: ovSlide 1.1s ease-in-out infinite;
     }}
+    .ov-splash-status {{
+        color: var(--ov-muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        animation: ovStatus 2.4s steps(3) infinite;
+    }}
+    .ov-splash-status::after {{
+        content: "";
+        animation: ovDots 1.2s steps(4) infinite;
+    }}
+    @keyframes ovStatus {{
+        0%, 100% {{ opacity: 0.35; }}
+        50% {{ opacity: 1; }}
+    }}
+    @keyframes ovDots {{
+        0% {{ content: ""; }}
+        25% {{ content: "."; }}
+        50% {{ content: ".."; }}
+        75% {{ content: "..."; }}
+    }}
     @keyframes ovSplashOut {{
         to {{ opacity: 0; visibility: hidden; }}
-    }}
-    @keyframes ovPulse {{
-        0%, 100% {{ transform: scale(1); }}
-        50% {{ transform: scale(1.06); }}
     }}
     @keyframes ovSlide {{
         0% {{ transform: translateX(-120%); }}
@@ -184,6 +254,11 @@ def inject_styles() -> None:
     }}
 
     /* ---------- Hero header (gradient title) ---------- */
+    [data-testid="stKey-page_hero"] {{
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--ov-border);
+        margin-bottom: 0.4rem;
+    }}
     [data-testid="stKey-page_hero"] h3 {{
         background: linear-gradient(120deg, var(--ov-primary), var(--ov-primary-soft));
         -webkit-background-clip: text;
@@ -195,6 +270,38 @@ def inject_styles() -> None:
     [data-testid="stKey-page_hero"] p {{
         color: var(--ov-muted);
         font-size: 1.02rem;
+    }}
+
+    /* ---------- Structured section headers ---------- */
+    [data-testid^="stKey-ov_sec_"] h3 {{
+        font-size: 1.02rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        padding-bottom: 0.4rem;
+        margin-bottom: 0.6rem;
+        border-bottom: 1px solid var(--ov-border);
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+    }}
+    [data-testid^="stKey-ov_sec_"] h3::after {{
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 3rem;
+        height: 2px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--ov-primary), transparent);
+    }}
+    [data-testid^="stKey-ov_sec_"] p {{
+        color: var(--ov-muted);
+    }}
+
+    /* ---------- Equal-height cards in grid columns ---------- */
+    [data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"] {{
+        height: 100%;
     }}
 
     /* ---------- Interactive buttons ---------- */
@@ -266,15 +373,14 @@ def render_loading_splash() -> None:
     st.html("""
     <div class="ov-splash">
         <div class="ov-splash-logo">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 3c1.6 0 2.6 1.2 2.6 2.8 0 .9-.4 1.7-1 2.2h-3.2c-.6-.5-1-1.3-1-2.2C9.4 4.2 10.4 3 12 3z" fill="white"/>
                 <path d="M8.6 10h6.8l-1.4 8.2c-.1.5-.5.8-1 .8h-2c-.5 0-.9-.3-1-.8L8.6 10z" fill="white"/>
             </svg>
         </div>
-        <div>
-            <div class="ov-splash-title">Oral Vision</div>
-            <div class="ov-splash-sub">AI-powered oral disease detection</div>
-        </div>
+        <div class="ov-splash-title">Oral Vision</div>
+        <div class="ov-splash-sub">AI-powered oral disease detection</div>
         <div class="ov-splash-bar"></div>
+        <div class="ov-splash-status">Loading dashboard</div>
     </div>
     """)
