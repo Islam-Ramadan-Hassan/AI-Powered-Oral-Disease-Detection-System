@@ -1,0 +1,35 @@
+# Data (external, huge - 15k+ files)
+Oral Diseases/
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+.vscode/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+# Trained models
+*.keras
+*.h5
+*.hdf5
+
+models/
+notebooks/models/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Virtual env
+.venv/
+venv/

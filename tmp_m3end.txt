@@ -1,0 +1,18 @@
+## How to run
+
+```bash
+# kernel: Python (DataAnalytics) - C:\Users\Admin\DataAnalytics\.venv
+python scripts/build_train_notebook.py   # rebuild the notebook
+jupyter notebook notebooks/03_Model_Training.ipynb
+```
+
+Requires: `tensorflow==2.21.0` (+ Keras applications weights download on
+first use). Execution is **optional** for this deliverable — the benchmark
+results are provided as attributed reference values.
+
+---
+
+## Project Structure
+
+```
+├── notebooks/           # Milestone notebooks (01-05)

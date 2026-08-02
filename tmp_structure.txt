@@ -1,0 +1,36 @@
+Project Structure
+
+```
+├── notebooks/           # Milestone notebooks (01-05)
+├── src/
+│   └── project_style.py # Design system (palette, matplotlib theme)
+├── scripts/             # Notebook builders + execution verifier + pptx builder
+├── reports/             # Generated charts, JSON, CSV reports
+├── deliverables/        # Presentation script, reports, viva prep
+├── presentation/        # Live .pptx deck (python-pptx, dark theme)
+├── Oral Diseases/       # Dataset (6 valid classes + excluded folder)
+└── reference_notebooks/ # Kaggle methodology references (not copied)
+```
+
+---
+
+## Design System
+
+**Theme:** Modern Medical AI — dark, minimal, professional.
+
+| Token | Color |
+| --- | --- |
+| Background | `#0F2854` |
+| Primary accent | `#1C4D8D` |
+| Secondary accent | `#4988C4` |
+| Highlight | `#BDE8F5` |
+| Text | `#F8FAFC` |
+
+All charts, tables, notebook markdown and (later) the Streamlit dashboard follow
+this system via `src/project_style.py`.
+
+---
+
+## Deliverables
+
+- `presentation/AI_
